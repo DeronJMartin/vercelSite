@@ -2,13 +2,14 @@ const container = document.querySelector('.scroll-container');
 const sections = document.querySelectorAll('.section');
 let currentIndex = 0;
 let isAnimating = false;
+let touchStartY = 0;
 
-// Set initial positions
-function initializeSections() {
+// Initialize container height and section positions
+function initialize() {
+    container.style.height = `${sections.length * 100}vh`;
     sections.forEach((section, index) => {
         section.style.transform = `translateY(${index * 100}vh)`;
     });
-    container.style.height = `${sections.length * 100}vh`;
 }
 
 function scrollToSection(index) {
@@ -39,8 +40,7 @@ window.addEventListener('keydown', (e) => {
     }
 });
 
-// Touch handler
-let touchStartY = 0;
+// Touch handlers
 window.addEventListener('touchstart', (e) => {
     touchStartY = e.touches[0].clientY;
 }, { passive: false });
@@ -57,5 +57,8 @@ window.addEventListener('touchmove', (e) => {
     }
 }, { passive: false });
 
-// Initialize
-initializeSections();
+// Resize handler
+window.addEventListener('resize', initialize);
+
+// Initial setup
+initialize();

@@ -14,6 +14,7 @@ body {
     font-family: 'Segoe UI', sans-serif;
     background: #fff;
     color: #333;
+    -webkit-font-smoothing: antialiased;
 }
 
 .scroll-container {
@@ -21,6 +22,7 @@ body {
     top: 0;
     left: 0;
     transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+    will-change: transform;
 }
 
 .section {
@@ -30,21 +32,94 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
 }
 
-/* Section backgrounds */
-#profile { background: #f0f0f0; }
-#education { background: #e0e0e0; }
-#experience { background: #d0d0d0; }
-#skills { background: #c0c0c0; }
-#projects { background: #b0b0b0; }
-
-/* Keep existing content styles from previous version */
 .content {
     max-width: 800px;
     margin: 0 auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-h1, h2, h3, p, ul, li {
-    /* Keep previous typography styles */
+h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    color: #212529;
 }
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: #343a40;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #adb5bd;
+}
+
+h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #495057;
+}
+
+p {
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    color: #6c757d;
+}
+
+.link {
+    color: #495057;
+    text-decoration: none;
+    border-bottom: 1px solid #adb5bd;
+    transition: all 0.3s ease;
+}
+
+.link:hover {
+    color: #212529;
+    border-color: #212529;
+}
+
+ul {
+    list-style: none;
+    padding-left: 1.5rem;
+}
+
+li {
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid #dee2e6;
+    color: #6c757d;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.skill-category {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.project, .experience-item, .education-item {
+    margin-bottom: 3rem;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Section-specific backgrounds */
+#profile { background: #f8f9fa; }
+#education { background: #e9ecef; }
+#experience { background: #dee2e6; }
+#skills { background: #ced4da; }
+#projects { background: #adb5bd; }
