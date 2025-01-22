@@ -2,54 +2,48 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
-html, body {
+body {
     overflow: hidden;
-    height: 100%;
-    width: 100%;
-}
-
-.scroll-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+    font-family: 'Segoe UI', sans-serif;
+    background: #ffffff;
+    color: #333;
 }
 
 .section {
     height: 100vh;
     width: 100vw;
     padding: 4rem;
-    position: absolute;
-    background: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translateY(100%);
+    transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+    background: #f8f9fa;
+    z-index: 1;
+}
+
+.section.active {
+    transform: translateY(0);
+    z-index: 2;
 }
 
 .content {
     max-width: 800px;
     margin: 0 auto;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    padding-top: 4rem;
 }
 
-/* Section Backgrounds */
-#profile { background: #f8f9fa; }
-#education { background: #e9ecef; }
-#experience { background: #dee2e6; }
-#skills { background: #ced4da; }
-#projects { background: #adb5bd; }
-
-/* Typography */
 h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
     color: #212529;
 }
 
 h2 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-bottom: 2rem;
     color: #343a40;
     border-bottom: 2px solid #adb5bd;
@@ -57,20 +51,33 @@ h2 {
 }
 
 h3 {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     margin-bottom: 1rem;
     color: #495057;
 }
 
-p, li {
-    color: #6c757d;
-    line-height: 1.6;
+p {
+    line-height: 1.7;
     margin-bottom: 1rem;
+    color: #6c757d;
+}
+
+.contact-info {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+}
+
+.links {
+    margin-top: 1rem;
 }
 
 .link {
     color: #495057;
     text-decoration: none;
+    margin-right: 1rem;
+    padding-bottom: 2px;
     border-bottom: 1px solid transparent;
     transition: border-color 0.3s ease;
 }
@@ -85,9 +92,10 @@ ul {
 }
 
 li {
+    margin-bottom: 0.8rem;
     padding-left: 1rem;
     border-left: 2px solid #dee2e6;
-    margin-bottom: 1rem;
+    color: #6c757d;
 }
 
 .skills-grid {

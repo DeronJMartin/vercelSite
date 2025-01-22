@@ -1,54 +1,40 @@
-const container = document.querySelector('.scroll-container');
 const sections = document.querySelectorAll('.section');
 let currentIndex = 0;
+let isScrolling = false;
 
-// Initialize container and sections
-function initialize() {
-    container.style.height = `${sections.length * 100}vh`;
-    
-    sections.forEach((section, index) => {
-        section.style.top = `${index * 100}vh`;
+function activateSection(index) {
+    sections.forEach((section, i) => {
+        section.classList.remove('active');
+        if(i === index) {
+            section.classList.add('active');
+        }
     });
 }
 
-function scrollToSection(index) {
-    if (index < 0 || index >= sections.length) return;
-    currentIndex = index;
-    container.style.transform = `translateY(-${index * 100}vh)`;
-}
-
-// Mouse wheel handler
 window.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    const direction = Math.sign(e.deltaY);
-    scrollToSection(currentIndex + direction);
+    if(isScrolling) return;
+    isScrolling = true;
+
+    const direction = e.deltaY > 0 ? 1 : -1;
+    const newIndex = Math.min(Math.max(currentIndex + direction, 0), sections.length - 1);
+
+    if(newIndex !== currentIndex) {
+        currentIndex = newIndex;
+        activateSection(currentIndex);
+    }
+
+    setTimeout(() => {
+        isScrolling = false;
+    }, 800);
 });
 
-// Keyboard handler
 window.addEventListener('keydown', (e) => {
-    if (['ArrowDown', 'ArrowUp'].includes(e.key)) {
+    if(['ArrowDown', 'ArrowUp'].includes(e.key)) {
         e.preventDefault();
         const direction = e.key === 'ArrowDown' ? 1 : -1;
-        scrollToSection(currentIndex + direction);
+        window.dispatchEvent(new WheelEvent('wheel', { deltaY: direction * 100 }));
     }
 });
 
-// Touch handler
-let touchStartY = 0;
-window.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-}, { passive: false });
-
-window.addEventListener('touchmove', (e) => {
-    e.preventDefault();
-    const touchEndY = e.touches[0].clientY;
-    const delta = touchStartY - touchEndY;
-    
-    if (Math.abs(delta) > 50) {
-        scrollToSection(currentIndex + Math.sign(delta));
-        touchStartY = touchEndY;
-    }
-}, { passive: false });
-
-// Initialize
-initialize();
+// Initialize first section
+activateSection(0);
