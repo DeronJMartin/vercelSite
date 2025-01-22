@@ -1,46 +1,61 @@
+const container = document.querySelector('.scroll-container');
 const sections = document.querySelectorAll('.section');
 let currentIndex = 0;
-let isScrolling = false;
+let isAnimating = false;
 
-function updateSections() {
+// Set initial positions
+function initializeSections() {
     sections.forEach((section, index) => {
-        section.classList.remove('active');
-        if (index === currentIndex) {
-            section.classList.add('active');
-        }
+        section.style.transform = `translateY(${index * 100}vh)`;
     });
+    container.style.height = `${sections.length * 100}vh`;
 }
 
+function scrollToSection(index) {
+    if (isAnimating || index < 0 || index >= sections.length) return;
+    
+    isAnimating = true;
+    currentIndex = index;
+    container.style.transform = `translateY(-${index * 100}vh)`;
+    
+    setTimeout(() => {
+        isAnimating = false;
+    }, 800);
+}
+
+// Mouse wheel handler
 window.addEventListener('wheel', (e) => {
     e.preventDefault();
-    if (isScrolling) return;
-    
-    isScrolling = true;
     const delta = Math.sign(e.deltaY);
-    const newIndex = delta > 0 ? currentIndex + 1 : currentIndex - 1;
-
-    if (newIndex >= 0 && newIndex < sections.length) {
-        currentIndex = newIndex;
-        updateSections();
-    }
-
-    setTimeout(() => {
-        isScrolling = false;
-    }, 1000);
+    scrollToSection(currentIndex + delta);
 });
 
+// Keyboard handler
 window.addEventListener('keydown', (e) => {
     if (['ArrowDown', 'ArrowUp', ' '].includes(e.key)) {
         e.preventDefault();
         const direction = e.key === 'ArrowDown' ? 1 : -1;
-        const newIndex = currentIndex + direction;
-
-        if (newIndex >= 0 && newIndex < sections.length) {
-            currentIndex = newIndex;
-            updateSections();
-        }
+        scrollToSection(currentIndex + direction);
     }
 });
 
-// Initialize first section
-updateSections();
+// Touch handler
+let touchStartY = 0;
+window.addEventListener('touchstart', (e) => {
+    touchStartY = e.touches[0].clientY;
+}, { passive: false });
+
+window.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    const touchEndY = e.touches[0].clientY;
+    const delta = touchStartY - touchEndY;
+    
+    if (Math.abs(delta) > 50) {
+        const direction = delta > 0 ? 1 : -1;
+        scrollToSection(currentIndex + direction);
+        touchStartY = touchEndY;
+    }
+}, { passive: false });
+
+// Initialize
+initializeSections();
