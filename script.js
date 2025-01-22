@@ -29,7 +29,7 @@ window.addEventListener('wheel', (e) => {
     const delta = Math.sign(e.deltaY);
     
     // Throttle trackpad scroll events
-    if (now - lastScrollTime < 1600) return;
+    if (now - lastScrollTime < 1200) return;
     
     // Cancel previous timeout
     if (wheelTimeout) clearTimeout(wheelTimeout);
@@ -38,7 +38,7 @@ window.addEventListener('wheel', (e) => {
     lastScrollTime = now;
     wheelTimeout = setTimeout(() => {
         lastScrollTime = 0;
-    }, 1600);
+    }, 1200);
 
     activateSection(currentIndex + delta);
 });
