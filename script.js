@@ -3,65 +3,67 @@ const navLinks = document.querySelectorAll('.nav-link');
 const navIndicator = document.querySelector('.nav-indicator');
 let currentIndex = 0;
 let isScrolling = false;
-let activeNavLink = document.querySelector('.nav-link.active');
 
 function activateSection(index) {
+    // Boundary checks
+    if (index < 0 || index >= sections.length) return;
+    
+    // Update sections
     sections.forEach((section, i) => {
-        section.classList.remove('active');
-        if(i === index) section.classList.add('active');
+        section.classList.toggle('active', i === index);
     });
+    
+    // Update navbar
     updateNavIndicator(index);
+    currentIndex = index;
 }
 
 function updateNavIndicator(index) {
-    const activeLink = document.querySelector(`.nav-link:nth-of-type(${index + 1})`);
+    const activeLink = navLinks[index];
     if (!activeLink) return;
-    
+
     // Update indicator position
     navIndicator.style.width = `${activeLink.offsetWidth}px`;
     navIndicator.style.left = `${activeLink.offsetLeft}px`;
-    
+
     // Update active class
-    activeNavLink.classList.remove('active');
+    navLinks.forEach(link => link.classList.remove('active'));
     activeLink.classList.add('active');
-    activeNavLink = activeLink;
 }
 
-// Wheel scroll handler
+// Scroll handler
 window.addEventListener('wheel', (e) => {
-    if(isScrolling) return;
+    if (isScrolling) return;
     isScrolling = true;
 
     const direction = e.deltaY > 0 ? 1 : -1;
     const newIndex = Math.min(Math.max(currentIndex + direction, 0), sections.length - 1);
 
-    if(newIndex !== currentIndex) {
-        currentIndex = newIndex;
-        activateSection(currentIndex);
+    if (newIndex !== currentIndex) {
+        activateSection(newIndex);
     }
 
-    setTimeout(() => isScrolling = false, 800);
+    setTimeout(() => {
+        isScrolling = false;
+    }, 800);
 });
 
-// Keyboard navigation
+// Keyboard handler
 window.addEventListener('keydown', (e) => {
-    if(['ArrowDown', 'ArrowUp'].includes(e.key)) {
+    if (['ArrowDown', 'ArrowUp'].includes(e.key)) {
         e.preventDefault();
         const direction = e.key === 'ArrowDown' ? 1 : -1;
-        currentIndex = Math.min(Math.max(currentIndex + direction, 0), sections.length - 1);
-        activateSection(currentIndex);
+        activateSection(currentIndex + direction);
     }
 });
 
-// Nav link click handlers
+// Nav link click handler
 navLinks.forEach((link, index) => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
-        currentIndex = index;
-        activateSection(currentIndex);
+        activateSection(index);
     });
 });
 
-// Initialize
+// Initial setup
 activateSection(0);
-window.addEventListener('DOMContentLoaded', () => updateNavIndicator(0));

@@ -10,7 +10,6 @@ body {
     font-family: 'Segoe UI', sans-serif;
     background: #ffffff;
     color: #333;
-    line-height: 1.6;
 }
 
 /* Navigation Styles */
@@ -42,10 +41,9 @@ body {
     color: #666;
     text-decoration: none;
     font-weight: 500;
-    transition: all 0.3s ease;
     padding: 0.5rem 1rem;
     position: relative;
-    font-size: 0.95rem;
+    transition: color 0.3s ease;
 }
 
 .nav-link.active {
@@ -66,13 +64,13 @@ body {
 .section {
     height: 100vh;
     width: 100vw;
-    padding: 4rem;
+    padding: 6rem 2rem 2rem;
     position: fixed;
     top: 0;
     left: 0;
     transform: translateY(100%);
     transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-    background: #f8f9fa;
+    overflow-y: auto;
     z-index: 1;
 }
 
@@ -85,140 +83,4 @@ body {
 .content {
     max-width: 800px;
     margin: 0 auto;
-    padding-top: 6rem;
-}
-
-/* Typography */
-h1 {
-    font-size: 3.5rem;
-    margin-bottom: 1.5rem;
-    color: #212529;
-    line-height: 1.2;
-}
-
-h2 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    color: #343a40;
-    border-bottom: 2px solid #adb5bd;
-    padding-bottom: 0.5rem;
-}
-
-h3 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-    color: #495057;
-}
-
-p {
-    margin-bottom: 1.5rem;
-    color: #6c757d;
-}
-
-/* Contact Information */
-.contact-info {
-    margin-bottom: 3rem;
-    padding: 1.5rem;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.contact-info p {
-    margin-bottom: 0.5rem;
-}
-
-.links {
-    margin-top: 1rem;
-}
-
-.link {
-    color: #495057;
-    text-decoration: none;
-    margin-right: 1.5rem;
-    padding-bottom: 2px;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s ease;
-}
-
-.link:hover {
-    border-color: #495057;
-}
-
-/* Lists */
-ul {
-    list-style: none;
-    padding-left: 1.5rem;
-}
-
-li {
-    margin-bottom: 0.8rem;
-    padding-left: 1rem;
-    border-left: 2px solid #dee2e6;
-    color: #6c757d;
-}
-
-/* Skills Grid */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-}
-
-.skill-category {
-    background: rgba(255, 255, 255, 0.9);
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-/* Experience/Education Items */
-.experience-item,
-.education-item {
-    margin-bottom: 3rem;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-/* Project Cards */
-.project {
-    margin-bottom: 2.5rem;
-    background: rgba(255, 255, 255, 0.9);
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-/* Section Backgrounds */
-#profile { background: #f8f9fa; }
-#education { background: #e9ecef; }
-#experience { background: #dee2e6; }
-#skills { background: #ced4da; }
-#projects { background: #adb5bd; }
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .content {
-        padding: 4rem 2rem;
-    }
-
-    h1 {
-        font-size: 2.5rem;
-    }
-
-    h2 {
-        font-size: 2rem;
-    }
-
-    .nav-item {
-        margin: 0 0.8rem;
-    }
-
-    .nav-link {
-        font-size: 0.85rem;
-        padding: 0.5rem;
-    }
 }
