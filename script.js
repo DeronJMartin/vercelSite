@@ -1,39 +1,46 @@
-const sections = Array.from(document.querySelectorAll('.section'));
-let currentSection = 0;
+const sections = document.querySelectorAll('.section');
+let currentIndex = 0;
 let isScrolling = false;
 
-// Initialize section positions
-window.addEventListener('DOMContentLoaded', () => {
+function updateSections() {
     sections.forEach((section, index) => {
-        if (index !== 0) {
-            section.style.transform = `translateY(${index * 100}vh)`;
+        section.classList.remove('active');
+        if (index === currentIndex) {
+            section.classList.add('active');
         }
     });
-});
+}
 
-// Handle wheel events
 window.addEventListener('wheel', (e) => {
+    e.preventDefault();
     if (isScrolling) return;
     
     isScrolling = true;
-    const direction = e.deltaY > 0 ? 1 : -1;
-    const nextSection = Math.min(Math.max(currentSection + direction, 0), sections.length - 1);
-    
-    if (nextSection !== currentSection) {
-        sections.forEach((section, index) => {
-            section.style.transform = `translateY(-${nextSection * 100}vh)`;
-        });
-        currentSection = nextSection;
+    const delta = Math.sign(e.deltaY);
+    const newIndex = delta > 0 ? currentIndex + 1 : currentIndex - 1;
+
+    if (newIndex >= 0 && newIndex < sections.length) {
+        currentIndex = newIndex;
+        updateSections();
     }
-    
-    setTimeout(() => { isScrolling = false; }, 800);
+
+    setTimeout(() => {
+        isScrolling = false;
+    }, 1000);
 });
 
-// Keyboard navigation
 window.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    if (['ArrowDown', 'ArrowUp', ' '].includes(e.key)) {
         e.preventDefault();
         const direction = e.key === 'ArrowDown' ? 1 : -1;
-        window.dispatchEvent(new WheelEvent('wheel', { deltaY: direction }));
+        const newIndex = currentIndex + direction;
+
+        if (newIndex >= 0 && newIndex < sections.length) {
+            currentIndex = newIndex;
+            updateSections();
+        }
     }
 });
+
+// Initialize first section
+updateSections();
