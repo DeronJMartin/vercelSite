@@ -24,6 +24,10 @@ body {
     border-bottom: 1px solid #ddd;
 }
 
+.section:not(:first-child) {
+    transform: translateY(100vh);
+}
+
 .content {
     max-width: 800px;
     margin: 0 auto;
@@ -44,25 +48,52 @@ h2 {
     padding-bottom: 0.5rem;
 }
 
+h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    color: #444;
+}
+
 p {
     line-height: 1.7;
     margin-bottom: 1.5rem;
-    color: #444;
+    color: #555;
 }
 
 .contact {
     font-size: 1.1rem;
     color: #666;
+    margin-bottom: 2rem;
 }
 
 ul {
     list-style: none;
-    padding-left: 1rem;
+    padding-left: 1.5rem;
 }
 
 li {
     margin-bottom: 1rem;
     padding-left: 1rem;
     border-left: 2px solid #999;
-    color: #555;
+    color: #666;
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+}
+
+.project, .experience-item, .education-item {
+    margin-bottom: 3rem;
+}
+
+a {
+    color: #444;
+    text-decoration: none;
+    border-bottom: 1px solid #999;
+}
+
+a:hover {
+    color: #000;
 }

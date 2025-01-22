@@ -2,6 +2,15 @@ const sections = Array.from(document.querySelectorAll('.section'));
 let currentSection = 0;
 let isScrolling = false;
 
+// Initialize section positions
+window.addEventListener('DOMContentLoaded', () => {
+    sections.forEach((section, index) => {
+        if (index !== 0) {
+            section.style.transform = `translateY(${index * 100}vh)`;
+        }
+    });
+});
+
 // Handle wheel events
 window.addEventListener('wheel', (e) => {
     if (isScrolling) return;
