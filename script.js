@@ -2,62 +2,54 @@ const sections = document.querySelectorAll('.section');
 const navLinks = document.querySelectorAll('.nav-link');
 const navIndicator = document.querySelector('.nav-indicator');
 let currentIndex = 0;
-let isScrolling = false;
+let lastScrollTime = 0;
+let wheelTimeout = null;
 
 function activateSection(index) {
-    // Boundary checks
-    if (index < 0 || index >= sections.length) return;
+    index = Math.max(0, Math.min(index, sections.length - 1));
     
-    // Update sections
     sections.forEach((section, i) => {
         section.classList.toggle('active', i === index);
     });
     
-    // Update navbar
     updateNavIndicator(index);
     currentIndex = index;
 }
 
 function updateNavIndicator(index) {
     const activeLink = navLinks[index];
-    if (!activeLink) return;
-
-    // Update indicator position
     navIndicator.style.width = `${activeLink.offsetWidth}px`;
     navIndicator.style.left = `${activeLink.offsetLeft}px`;
-
-    // Update active class
     navLinks.forEach(link => link.classList.remove('active'));
     activeLink.classList.add('active');
 }
 
-// Scroll handler
 window.addEventListener('wheel', (e) => {
-    if (isScrolling) return;
-    isScrolling = true;
-
-    const direction = e.deltaY > 0 ? 1 : -1;
-    const newIndex = Math.min(Math.max(currentIndex + direction, 0), sections.length - 1);
-
-    if (newIndex !== currentIndex) {
-        activateSection(newIndex);
-    }
-
-    setTimeout(() => {
-        isScrolling = false;
+    const now = Date.now();
+    const delta = Math.sign(e.deltaY);
+    
+    // Throttle trackpad scroll events
+    if (now - lastScrollTime < 800) return;
+    
+    // Cancel previous timeout
+    if (wheelTimeout) clearTimeout(wheelTimeout);
+    
+    // Apply immediate scroll lock
+    lastScrollTime = now;
+    wheelTimeout = setTimeout(() => {
+        lastScrollTime = 0;
     }, 800);
+
+    activateSection(currentIndex + delta);
 });
 
-// Keyboard handler
 window.addEventListener('keydown', (e) => {
     if (['ArrowDown', 'ArrowUp'].includes(e.key)) {
         e.preventDefault();
-        const direction = e.key === 'ArrowDown' ? 1 : -1;
-        activateSection(currentIndex + direction);
+        activateSection(currentIndex + (e.key === 'ArrowDown' ? 1 : -1));
     }
 });
 
-// Nav link click handler
 navLinks.forEach((link, index) => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
@@ -65,5 +57,5 @@ navLinks.forEach((link, index) => {
     });
 });
 
-// Initial setup
+// Initialize
 activateSection(0);
